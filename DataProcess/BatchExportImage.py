@@ -1,11 +1,15 @@
 from au.gov.ansto.bragg.nbi.ui.image import ChartImage
 from org.gumtree.vis.nexus.utils import NXFactory
 import math
+from Internal import lib
+
 
 # Script control setup area
 # script info
 __script__.title = '<Script Template>'
 __script__.version = '1.0'
+
+SAVED_EFFICIENCY_FILENAME_PRFN = 'kowari.savedEfficiency'
 
 # Use below example to create parameters.
 # The type can be string, int, float, bool, file.
@@ -17,8 +21,17 @@ HPLOT = ChartImage(__image_width__, __image_height__)
 
 # Use below example to create a button
 prog_bar = Par('progress', 0)
-par_type = Par('string', 'JPG', options = ['JPG', 'PNG'])
-par_type.title= 'Image Format'
+par_type = Par('string', 'PNG', options = ['JPG', 'PNG'])
+par_type.title = 'image format'
+par_eff = Par('bool', True)
+par_eff.title = "enable efficiency correction"
+eff_map = Par('file', u'D:\EXPERIMENTS\STRESS\KWR0039477 calibration.nx.hdf')
+d_map = get_prof_value(SAVED_EFFICIENCY_FILENAME_PRFN)
+if not d_map is None and d_map.strip() != '':
+    eff_map.value = d_map
+eff_map.title = 'efficiency map file'
+par_geo = Par('bool', True)
+par_geo.title = "enable geometry correction"
 act1 = Act('export_images()', 'Batch Export Images from Selected HDF Files') 
 def export_images():
     path = selectSaveFolder()
@@ -40,20 +53,37 @@ def export_images():
             prog_bar.selection = dss_idx
             ds = df[str(dinfo.location)]
             if ds.ndim != 4:
-                slog('dimension of ' + str(ds.id) + ' is not supported')
-            fn = ds.name
-            log('process ' + ds.name)
-            idx = fn.find('.')
+                log('dimension of ' + str(ds.id) + ' is not supported')
+            dname = ds.name
+            ds = ds.get_reduced(1)
+            if par_eff.value and eff_map.value != None \
+                and len(eff_map.value.strip()) > 0:
+                log('running efficiency correction')
+                map = lib.make_eff_map(df, str(eff_map.value))
+                ds = lib.eff_corr(ds, map)
+            if par_geo.value :
+                log('running geometry correction')
+                ds = lib.geo_corr(ds, par_geo.value)
+            log('process ' + dname)
+            idx = dname.find('.')
             if idx > 0:
-                fn = fn[0:idx]
+                fn = dname[0:idx]
             fn = path + '/' + fn
             wt = int(math.log10(len(ds))) + 1
             for i in xrange(len(ds)):
                 log('\t frame ' + str(i))
-                sl = ds[i, 0]
+                if ds.ndim == 4:
+                    sl = ds[i, 0]
+                elif ds.ndim == 3:
+                    sl = ds[i]
+                elif ds.ndim == 2:
+                    sl = ds
+                else:
+                    log('dimensions are not allowed for ' + dname)
+                    break
                 pds = NXFactory.createHist2DDataset(sl.__iNXDataset__)
                 HPLOT.setDataset(pds)
-                HPLOT.getChart().setTitle(str(ds.name) + '_' + str(i))
+                HPLOT.getChart().setTitle(str(dname) + '_' + str(i))
                 ext = (('%0' + str(wt) + 'd.' + str(par_type.value)) % i)
                 HPLOT.saveImage(fn + '_' + ext, str(par_type.value))
     finally:
