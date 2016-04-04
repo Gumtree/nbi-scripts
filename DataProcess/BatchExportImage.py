@@ -35,7 +35,7 @@ par_geo = Par('bool', True)
 par_geo.title = "enable geometry correction"
 par_type = Par('string', 'PNG', options = ['JPG', 'PNG'])
 par_type.title = 'image format'
-act1 = Act('export_images()', 'Batch Export Images from Selected HDF Files')
+act1 = Act('export_images()', 'Batch Export Images')
 def export_images():
     path = selectSaveFolder()
     if path == None:
