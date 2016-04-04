@@ -1,5 +1,6 @@
 from au.gov.ansto.bragg.nbi.ui.image import ChartImage
 from org.gumtree.vis.nexus.utils import NXFactory
+from org.gumtree.vis.hist2d.color import ColorScale as color_scale
 import math
 from Internal import lib
 
@@ -8,7 +9,7 @@ from Internal import lib
 # script info
 __script__.title = '<Script Template>'
 __script__.version = '1.0'
-
+__script__.numColumns = 2
 SAVED_EFFICIENCY_FILENAME_PRFN = 'kowari.savedEfficiency'
 
 # Use below example to create parameters.
@@ -21,18 +22,20 @@ HPLOT = ChartImage(__image_width__, __image_height__)
 
 # Use below example to create a button
 prog_bar = Par('progress', 0)
-par_type = Par('string', 'PNG', options = ['JPG', 'PNG'])
-par_type.title = 'image format'
-par_eff = Par('bool', True)
-par_eff.title = "enable efficiency correction"
-eff_map = Par('file', u'D:\EXPERIMENTS\STRESS\KWR0039477 calibration.nx.hdf')
+prog_bar.colspan = 2
+eff_map = Par('file', '')
 d_map = get_prof_value(SAVED_EFFICIENCY_FILENAME_PRFN)
 if not d_map is None and d_map.strip() != '':
     eff_map.value = d_map
 eff_map.title = 'efficiency map file'
+par_eff = Par('bool', True)
+par_eff.title = "enable efficiency correction"
+sp = Par('space', '')
 par_geo = Par('bool', True)
 par_geo.title = "enable geometry correction"
-act1 = Act('export_images()', 'Batch Export Images from Selected HDF Files') 
+par_type = Par('string', 'PNG', options = ['JPG', 'PNG'])
+par_type.title = 'image format'
+act1 = Act('export_images()', 'Batch Export Images from Selected HDF Files')
 def export_images():
     path = selectSaveFolder()
     if path == None:
@@ -52,10 +55,11 @@ def export_images():
             dss_idx += 1
             prog_bar.selection = dss_idx
             ds = df[str(dinfo.location)]
-            if ds.ndim != 4:
+            if ds.ndim <= 3:
                 log('dimension of ' + str(ds.id) + ' is not supported')
             dname = ds.name
-            ds = ds.get_reduced(1)
+            if ds.ndim == 4:
+                ds = ds.get_reduced(1)
             if par_eff.value and eff_map.value != None \
                 and len(eff_map.value.strip()) > 0:
                 log('running efficiency correction')
@@ -85,6 +89,10 @@ def export_images():
                 HPLOT.setDataset(pds)
                 HPLOT.getChart().setTitle(str(dname) + '_' + str(i))
                 ext = (('%0' + str(wt) + 'd.' + str(par_type.value)) % i)
+                try:
+                    HPLOT.getXYPlot().getRenderer().getPaintScale().setColorScale(color_scale.Rainbow)
+                except:
+                    pass
                 HPLOT.saveImage(fn + '_' + ext, str(par_type.value))
     finally:
         prog_bar.selection = 0
