@@ -33,7 +33,7 @@ par_eff.title = "enable efficiency correction"
 sp = Par('space', '')
 par_geo = Par('bool', True)
 par_geo.title = "enable geometry correction"
-par_type = Par('string', 'PNG', options = ['JPG', 'PNG'])
+par_type = Par('string', 'ASCII', options = ['ASCII', 'JPG', 'PNG'])
 par_type.title = 'image format'
 act1 = Act('export_images()', 'Batch Export Images')
 def export_images():
@@ -55,7 +55,7 @@ def export_images():
             dss_idx += 1
             prog_bar.selection = dss_idx
             ds = df[str(dinfo.location)]
-            if ds.ndim <= 3:
+            if ds.ndim < 3:
                 log('dimension of ' + str(ds.id) + ' is not supported')
             dname = ds.name
             if ds.ndim == 4:
@@ -85,20 +85,40 @@ def export_images():
                 else:
                     log('dimensions are not allowed for ' + dname)
                     break
-                pds = NXFactory.createHist2DDataset(sl.__iNXDataset__)
-                HPLOT.setDataset(pds)
-                HPLOT.getChart().setTitle(str(dname) + '_' + str(i))
-                ext = (('%0' + str(wt) + 'd.' + str(par_type.value)) % i)
-                try:
-                    HPLOT.getXYPlot().getRenderer().getPaintScale().setColorScale(color_scale.Rainbow)
-                except:
-                    pass
-                HPLOT.saveImage(fn + '_' + ext, str(par_type.value))
+                if str(par_type.value) == 'ASCII' :
+                    ext = ('%0' + str(wt) + 'd.xyz') % i
+                    f = open(fn + '_' + ext, 'w')
+                    try:
+                        header = '#'
+                        header += get_line(sl.axes[1], 3)
+                        f.write(header)
+                        for line in sl:
+                            f.write(get_line(line, 3))
+                    finally:
+                        f.close()
+                else:
+                    pds = NXFactory.createHist2DDataset(sl.__iNXDataset__)
+                    HPLOT.setDataset(pds)
+                    HPLOT.getChart().setTitle(str(dname) + '_' + str(i))
+                    ext = (('%0' + str(wt) + 'd.' + str(par_type.value)) % i)
+                    try:
+                        HPLOT.getXYPlot().getRenderer().getPaintScale().setColorScale(color_scale.Rainbow)
+                    except:
+                        pass
+                    HPLOT.saveImage(fn + '_' + ext, str(par_type.value))
     finally:
         prog_bar.selection = 0
         prog_bar.max = 0
     log('Done')
-        
+
+def get_line(ds, sig = -1):
+    s = ''
+    if sig >= 0 :
+        for v in ds :
+            s += ('%.' + str(sig) + 'f') % v + '\t'
+        return s + '\n'
+    else:
+        return str(s.tolist())[1:-1] + '\n'
 # Use below example to create a new Plot
 # Plot4 = Plot(title = 'new plot')
 
