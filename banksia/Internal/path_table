@@ -1,0 +1,154 @@
+######################################################
+# Please do not use key words listed here
+#	axes
+# 	err, error
+#	location
+#	name
+#	ndim
+#	size
+#	shape
+# 	title
+#	units
+#	var
+#	norm_value
+#	norm_attr
+######################################################
+
+experiment_title = $entry/experiment/title
+user_name = $entry/user/name
+user_email = $entry/user/email
+user_phone = $entry/user/phone
+reactor_power = $entry/instrument/source/power
+suid = $entry/data/sics_suid
+dummy_motor = $entry/sample/dummy_motor
+start_time = $entry/start_time
+end_time = $entry/end_time
+program_name = $entry/program_name
+sics_release = $entry/sics_release
+run_mode = $entry/run_mode
+sample_name = $entry/sample/name
+sample_short_title = $entry/sample/short_title
+sample_description = $entry/sample/description
+run_number = $entry/data/run_number
+
+cdd = $entry/instrument/cdd
+cdr = $entry/instrument/cdr
+sdh = $entry/instrument/sdh
+
+
+monitor_data = $entry/monitor/data
+bm1_counts = $entry/monitor/bm1_counts
+bm1_event_rate = $entry/monitor/bm1_event_rate
+bm1_time = $entry/monitor/bm1_time
+bm2_counts = $entry/monitor/bm2_counts
+bm2_event_rate = $entry/monitor/bm1_event_rate
+bm2_time = $entry/monitor/bm2_time
+bm3_counts = $entry/monitor/bm3_counts
+bm3_event_rate = $entry/monitor/bm1_event_rate
+bm3_time = $entry/monitor/bm3_time
+bm_data = $entry/monitor/data
+bm_time = $entry/monitor/time
+bm_mode = $entry/monitor/mode
+bm_preset = $entry/monitor/preset
+
+tc1_sample = $entry/sample/tc1/sensor/Tsample
+tc1_ctrl1 = $entry/sample/tc1/sensor/ctrlLp1_value
+tc1_ctrl2 = $entry/sample/tc1/sensor/ctrlLp2_value
+tc1_sensorA = $entry/sample/tc1/sensor/sensorValueA
+tc1_sensorB = $entry/sample/tc1/sensor/sensorValueB
+tc1_sensorC = $entry/sample/tc1/sensor/sensorValueC
+tc1_sensorD = $entry/sample/tc1/sensor/sensorValueD
+magnetrot = $entry/sample/magnetrot/sensor
+
+
+c5                       = $entry/instrument/collimator/c5
+a6                       = $entry/instrument/collimator/a6
+ap3                      = $entry/instrument/collimator/ap3
+max_binrate              = $entry/instrument/detector/max_binrate
+mode                     = $entry/monitor/mode
+description              = $entry/sample/description
+cns_inlet_temp           = $entry/instrument/source/cns_inlet_temp
+run_number               = $entry/instrument/run_number
+bm1_counts               = $entry/monitor/bm1_counts
+program_name             = $entry/program_name
+DataType                 = $entry/data/DataType
+c7                       = $entry/instrument/collimator/c7
+time_stamp               = $entry/time_stamp
+run_mode                 = $entry/run_mode
+short_title              = $entry/sample/short_title
+start                    = $entry/experiment/start
+sics_suid                = $entry/data/sics_suid
+hmm_total_x              = $entry/instrument/detector/hmm_total_x
+bm1_event_rate           = $entry/monitor/bm1_event_rate
+file_name                = $entry/experiment/file_name
+ap8                      = $entry/instrument/collimator/ap8
+col5                     = $entry/instrument/collimator/col5
+bm3_time                 = $entry/monitor/bm3_time
+ap1                      = $entry/instrument/collimator/ap1
+program_branch           = $entry/program_branch
+col4                     = $entry/instrument/collimator/col4
+bm2_counts               = $entry/monitor/bm2_counts
+save_count               = $entry/experiment/save_count
+col8                     = $entry/instrument/collimator/col8
+a5                       = $entry/instrument/collimator/a5
+ap5                      = $entry/instrument/collimator/ap5
+start_time               = $entry/instrument/detector/start_time
+col6                     = $entry/instrument/collimator/col6
+file_status              = $entry/experiment/file_status
+ap2                      = $entry/instrument/collimator/ap2
+autosaveIndex            = $entry/instrument/autosaveIndex
+c6                       = $entry/instrument/collimator/c6
+cns_flow_temp            = $entry/instrument/source/cns_flow_temp
+ap7                      = $entry/instrument/collimator/ap7
+bm2_status               = $entry/monitor/bm2_status
+master_chopper_id        = $entry/instrument/master_chopper_id
+a3                       = $entry/instrument/collimator/a3
+cg123He_temp             = $entry/instrument/source/cg123He_temp
+col1                     = $entry/instrument/collimator/col1
+title                    = $entry/experiment/title
+total_counts             = $entry/instrument/detector/total_counts
+active_height            = $entry/instrument/detector/active_height
+cns_outlet_temp          = $entry/instrument/source/cns_outlet_temp
+data                     = $entry/monitor/data
+bm3_counts               = $entry/monitor/bm3_counts
+c4                       = $entry/instrument/collimator/c4
+time                     = $entry/monitor/time
+col2                     = $entry/instrument/collimator/col2
+bm3_event_rate           = $entry/monitor/bm3_event_rate
+c2                       = $entry/instrument/collimator/c2
+daq_dirname              = $entry/instrument/detector/daq_dirname
+a1                       = $entry/instrument/collimator/a1
+a4                       = $entry/instrument/collimator/a4
+file_set                 = $entry/experiment/file_set
+bm2_time                 = $entry/monitor/bm2_time
+site_name                = $entry/site_name
+stop_time                = $entry/instrument/detector/stop_time
+total_maprate            = $entry/instrument/detector/total_maprate
+bm2_event_rate           = $entry/monitor/bm2_event_rate
+phone                    = $entry/user/phone
+power                    = $entry/instrument/source/power
+col3                     = $entry/instrument/collimator/col3
+end_time                 = $entry/end_time
+c3                       = $entry/instrument/collimator/c3
+ap6                      = $entry/instrument/collimator/ap6
+x_pixel_offset           = $entry/instrument/detector/x_pixel_offset
+ap4                      = $entry/instrument/collimator/ap4
+col7                     = $entry/instrument/collimator/col7
+name                     = $entry/user/name
+x_bin                    = $entry/instrument/detector/x_bin
+y_pixel_offset           = $entry/instrument/detector/y_pixel_offset
+preset                   = $entry/monitor/preset
+y_bin                    = $entry/instrument/detector/y_bin
+bm1_time                 = $entry/monitor/bm1_time
+program_revision         = $entry/program_revision
+time_of_flight           = $entry/instrument/detector/time_of_flight
+email                    = $entry/user/email
+a7                       = $entry/instrument/collimator/a7
+simulation               = $entry/instrument/status/simulation
+a2                       = $entry/instrument/collimator/a2
+active_width             = $entry/instrument/detector/active_width
+bm1_status               = $entry/monitor/bm1_status
+c1                       = $entry/instrument/collimator/c1
+currpoint                = $entry/experiment/currpoint
+variance                 = $entry/data/variance
+bm3_status               = $entry/monitor/bm3_status
